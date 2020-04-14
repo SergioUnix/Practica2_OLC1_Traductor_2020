@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+
+
+
+
+
+  <title>Practica Compiladores 1</title>
+
+  <!-- Para CodeMirror-->
+ 
+
+
+
+
+
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Practica 2 de Compiladores 1</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home
+              <span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" >  </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Services</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Content -->
+  <div class="container" >
+
+    <div class="row" >
+
+      <!-- Blog Entries Column -->
+      <div class="col-md-6">
+
+        <h1 class="my-4">
+          <div class="card-footer text-muted">
+        
+          </div>
+          <div class="card-footer text-muted">
+            Codigo en C#
+          <small> Escribe </small>
+          </div >
+        
+        </h1>
+       
+
+        <!-- Codigo C# para escribir -->
+        <div class="card mb-4">
+              
+          <h5 class="card-title">Cargar Archivo</h5>
+          <input type='file' placeholder="Title" (change)="fileChanged($event)">
+ 
+
+                   
+
+        <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
+        <ngx-codemirror 
+        [(ngModel)]="fileString"
+        [options]="{
+          lineNumbers: true,
+          matchBrackets: true,
+          styeleActiveLine:true,
+          theme: 'eclipse',
+          mode: 'javascript'
+
+
+        }"
+>     </ngx-codemirror>
+
+        <div class="card-body">
+            <form>
+
+
+                <button class="btn btn-success btn-block" (click)="SaveDemo()">
+                   Analizar
+
+                </button>
+
+
+
+
+
+            </form>
+        </div>
+
+
+
+<script>	
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+          <div class="card-body">
+            <h2 class="card-title">Post Title</h2>
+            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+          </div>
+          <div class="card-footer text-muted">
+            Posted on January 1, 2017 by
+            <a href="#">Start Bootstrap</a>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+
+      <!-- Columna derecha -->
+      <div class="col-md-6">
+
+        <h1 class="my-4">
+          <div class="card-footer text-muted">
+        
+          </div>
+          <div class="card-footer text-muted">
+            
+          <small>  </small>
+          </div >
+        
+        </h1>
+
+
+
+
+
+           <!-- HTML -->
+           <div class="card my-4">
+            <h5 class="card-header">Python</h5>
+         <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
+         <ngx-codemirror 
+         [(ngModel)]="fileString"
+         [options]="{
+           lineNumbers: true,
+           matchBrackets: true,
+           styeleActiveLine:true,
+           theme: 'cobalt',
+           mode: 'python'
+ 
+ 
+         }"
+ >     </ngx-codemirror>
+           </div>
+
+
+        <!-- HTML -->
+        <div class="card my-4">
+          <h5 class="card-header">HTML</h5>
+      <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
+      <ngx-codemirror 
+      [(ngModel)]="fileString"
+      [options]="{
+        lineNumbers: true,
+        matchBrackets: true,
+        styeleActiveLine:true,
+        theme: 'dracula',
+        mode: 'go'
+
+
+      }"
+>     </ngx-codemirror>
+         </div>
+
+
+        <!-- Side Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Side Widget</h5>
+          <div class="card-body">
+            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+    <!-- /.row -->
+
+
+
+  </div>
+  <!-- /.container -->
+
+  <!-- Footer -->
+  <footer class="py-5 bg-dark">
+    <div class="container">
+      <p class="m-0 text-center text-white">Sergio Ariel Ramírez Castro   &copy;       201020252</p>
+    </div>
+    <!-- /.container -->
+  </footer>
+
+  <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+
+
+
+
+
+</body>
+
+</html>
+
+
+

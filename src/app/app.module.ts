@@ -6,8 +6,7 @@ import {FormsModule} from '@angular/forms';  //necesario para lanzar mis datos p
 import { AppComponent } from './app.component';
 import { PaginaComponent } from './componentes/pagina/pagina.component';
 import { Pagina2Component } from './componentes/pagina2/pagina2.component';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
-//import 'codemirror';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';      //import 'codemirror';
 
 
 @NgModule({

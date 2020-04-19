@@ -36,7 +36,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home
+            <a class="nav-link" href="#" (click)="Guardar()">Guardar
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -44,48 +44,70 @@
             <a class="nav-link" >  </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
+            <a class="nav-link" href="#"(click)="Guardar()">Guardar como..</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+            <a class="nav-link" href="#">Salir</a>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- Page Content -->
-  <div class="container" >
+  <!-- --------------------------------------------------------------------------------------------r-->
 
+  <div class="col-md-12">
+<br>
+
+
+<h1 class="my-4">
+  <div class="card-footer text-muted">
+    Codigo en C#
+  </div >
+</h1>
+              
+<h5 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged($event)">      </h5>
+
+
+    <ngx-codemirror 
+    [(ngModel)]="codigo"
+    [options]="{
+      lineNumbers: true,
+      matchBrackets: true,
+      styeleActiveLine:true,
+      theme: 'cobalt',
+      mode: 'python'
+
+
+    }"> </ngx-codemirror>
+<div class="card-body">
+  <form>
+
+
+      <button class="btn btn-success btn-block" (click)="analizador()" >
+         Analizar
+
+      </button>
+  </form>
+</div>
+
+  </div>
+
+  <!-------------------------------------------------------------------------------- Page Content -->
+  <div class="container" >
     <div class="row" >
 
       <!-- Blog Entries Column -->
-      <div class="col-md-6">
+      <div class="col-md-6">   
 
-        <h1 class="my-4">
-          <div class="card-footer text-muted">
-        
-          </div>
-          <div class="card-footer text-muted">
-            Codigo en C#
-          <small> Escribe </small>
-          </div >
-        
-        </h1>
-       
-
-        <!-- Codigo C# para escribir -->
+        <!-- Consola -->
         <div class="card mb-4">
               
-          <h5 class="card-title">Cargar Archivo</h5>
-          <input type='file' placeholder="Title" (change)="fileChanged($event)">
- 
-
-                   
+          <h5 class="card-title">Consola</h5>                  
 
         <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
         <ngx-codemirror 
-        [(ngModel)]="fileString"
+        [(ngModel)]="consola"
         [options]="{
           lineNumbers: true,
           matchBrackets: true,
@@ -94,49 +116,20 @@
           mode: 'javascript'
 
 
-        }"
->     </ngx-codemirror>
-
-        <div class="card-body">
-            <form>
-
-
-                <button class="btn btn-success btn-block" (click)="SaveDemo()">
-                   Analizar
-
-                </button>
-
-
-
-
-
-            </form>
-        </div>
-
-
-
-<script>	
-
-</script>
-
-
-
-
-
-
+        }"></ngx-codemirror>
 
 
 
 
 
           <div class="card-body">
-            <h2 class="card-title">Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a href="#" class="btn btn-primary">Read More &rarr;</a>
+            <h2 class="card-title">Texto de Ayuda</h2>
+            <p class="card-text">Gramatica a aplicar!</p>
+            <a href="#" class="btn btn-primary">Leer mas... &rarr;</a>
           </div>
           <div class="card-footer text-muted">
-            Posted on January 1, 2017 by
-            <a href="#">Start Bootstrap</a>
+            fecha del proyecto 14 de Abril
+            <a href="#">Utilizando Bootstrap</a>
           </div>
         </div>
 
@@ -146,30 +139,18 @@
 
       </div>
 
+
+
+
       <!-- Columna derecha -->
       <div class="col-md-6">
-
-        <h1 class="my-4">
-          <div class="card-footer text-muted">
-        
-          </div>
-          <div class="card-footer text-muted">
-            
-          <small>  </small>
-          </div >
-        
-        </h1>
-
-
-
-
 
            <!-- HTML -->
            <div class="card my-4">
             <h5 class="card-header">Python</h5>
          <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
          <ngx-codemirror 
-         [(ngModel)]="fileString"
+         [(ngModel)]="python"
          [options]="{
            lineNumbers: true,
            matchBrackets: true,
@@ -178,8 +159,7 @@
            mode: 'python'
  
  
-         }"
- >     </ngx-codemirror>
+         }" ></ngx-codemirror>
            </div>
 
 
@@ -188,7 +168,7 @@
           <h5 class="card-header">HTML</h5>
       <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
       <ngx-codemirror 
-      [(ngModel)]="fileString"
+      [(ngModel)]="html"
       [options]="{
         lineNumbers: true,
         matchBrackets: true,
@@ -197,20 +177,23 @@
         mode: 'go'
 
 
-      }"
->     </ngx-codemirror>
+      }"></ngx-codemirror>
          </div>
 
 
         <!-- Side Widget -->
         <div class="card my-4">
-          <h5 class="card-header">Side Widget</h5>
+          <h5 class="card-header">Leyenda de Errores</h5>
           <div class="card-body">
-            You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
+            Cualquier texto de ayuda!
           </div>
         </div>
 
       </div>
+
+
+
+
 
     </div>
     <!-- /.row -->
@@ -219,6 +202,12 @@
 
   </div>
   <!-- /.container -->
+
+
+ 
+
+
+
 
   <!-- Footer -->
   <footer class="py-5 bg-dark">

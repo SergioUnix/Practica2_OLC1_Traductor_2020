@@ -5,14 +5,10 @@ import { TemplateDefinitionBuilder } from '@angular/compiler/src/render3/view/te
 
 
 export class Sintactico{
-public NO_salto:boolean;
-public contadorTab:number;
-public Traducir:boolean;
-public cadena_traducida:string;
-public tomarLLaves:boolean;
 
-public acepta_return_metodos;
-public acepta_return_fuciones; 
+public contadorTab:number;
+public cadena_traducida:string;
+public acept_r_met; public acep_r_fun; public el_switch; public s_continue;public s_break;
     
 public getCadena_traducida():string{
    return this.cadena_traducida;
@@ -22,26 +18,23 @@ public getCadena_traducida():string{
 
 iterador:number;
 
-// atributos publicos PARA PARSEAR 
-public tokenActual:token; 
-public listaTok:any = [];
+
+public puntual_Token:token; 
+public listaTokens:any = [];
 public sig :number;
 public hay_error:boolean; 
 
 
 constructor(tokens:any[]){
 
-    this.NO_salto=false;
+   
     this.contadorTab=0;
-    this.Traducir=false;
     this.cadena_traducida="";
-    this.tomarLLaves=false;
-    
-    this.hay_error=false;
-    this.listaTok = tokens;
+    this.s_continue=false;   this.s_break=false;        this.hay_error=false;
+    this.listaTokens = tokens;
     this.sig = 0 ; 
-    this.tokenActual = this.listaTok[this.sig];
-    // LISTO PARA INICIAR EL SINTACTICO 
+    this.puntual_Token = this.listaTokens[this.sig];
+    // Mensaje de Inicio del Analisis
     console.log("INICIA A ANALIZAR");
 
     //this.ignoraComentarios();
@@ -49,32 +42,90 @@ constructor(tokens:any[]){
     console.log("TERMINO DE ANALIZAR");
     
 
-    this.acepta_return_metodos=false;
-   this.acepta_return_fuciones=false;
+    this.acept_r_met=false;
+   this.acep_r_fun=false;
  
     }
 
+
+
+
+
+
     private inicio(){   
-        this.parea("P_void"); 
-        this.parea("P_apertura");
-        this.parea("P_cierre")
-        this.parea("Llave_apertura");  
-        this.Lista_inst(); 
-        this.parea("Llave_cierre"); 
-        this.parea("Ultimo");  //aceptacion
-       // this.sentencia_clase(); this.lista_claseP(); this.parea("Ultimo");    
-    }    //metodo Inicio
+       // this.parea("P_void"); 
+        //this.parea("P_apertura");
+        //this.parea("P_cierre")
+        //this.parea("Llave_apertura");  
+        //this.Lista_inst(); 
+        //this.parea("Llave_cierre"); 
+        //this.parea("Ultimo");  //aceptacion
+        this.sentencia_clase(); this.lista_claseP(); this.parea("Ultimo");    
+    }    
     
     private lista_claseP(){
-        if(this.tokenActual.getTipo()=="P_class"){
+        if(this.puntual_Token.getTipo()=="P_class"){
             this.sentencia_clase();
-            this.lista_claseP(); ///Recursivo
+            this.lista_claseP(); ///Realiza la recursion
         }else{  }   
         }
 
     private sentencia_clase(){       
-        this.parea("P_class");   this.parea("variable");  this.parea("Llave_apertura");   this.Lista_inst();   this.parea("Llave_cierre");    
+        this.parea("P_class");   
+        this.parea("variable"); 
+         this.parea("Llave_apertura"); 
+     //      this.Lista_inst();  //la otra prueba que realice
+     this.Lista_Declaraciones_metFunVar();
+     
+            this.parea("Llave_cierre");    
     }
+
+
+
+
+
+
+
+private Lista_Declaraciones_metFunVar(){
+      if (this.puntual_Token.getTipo()=="P_void"){
+          this.Declaracion();
+           this.Lista_Declaraciones_metFunVarP();
+      }else{}
+}
+private Lista_Declaraciones_metFunVarP(){
+    if (this.puntual_Token.getTipo()=="P_void"){
+        this.Declaracion();
+        this.Lista_Declaraciones_metFunVarP();
+    }else{}
+
+
+}
+private Declaracion_adentro_de_metodos_funciones(){
+    this.Tipo(); this.parea("variable");  this.DeclaracionP_metodos();
+}
+
+private DeclaracionP_metodos(){
+    this.Lista_ids();
+    this.asignacion();
+    this.parea("Punto_coma");
+}
+
+
+private Tipo(){
+//this.ingoraComentarios();
+if (this.puntual_Token.getTipo() == "P_int") {             
+    this.parea("P_int");
+}else if (this.puntual_Token.getTipo() == "P_double"){
+    this.parea("P_double"); 
+}else if (this.puntual_Token.getTipo() == "P_char"){
+    this.parea("P_char");
+}else if (this.puntual_Token.getTipo() == "P_string"){
+    this.parea("P_string");
+}else {   this.parea("P_bool");  }
+
+}
+
+
 ///////////////////////////////////////////////////////////////////
     private Lista_inst(){
         this.Instruccion();    this.Lista_instPrim();
@@ -82,65 +133,68 @@ constructor(tokens:any[]){
 
   ////////////////////////////////////////////////////  
     private Lista_instPrim(){
-        if (this.tokenActual.getTipo() == "P_if")
-        {             // Instruccion -> Sentencia_if 
+        if (this.puntual_Token.getTipo() == "P_if")
+        {             
             this.Instruccion();
             this.Lista_instPrim();           
         }
-        else if (this.tokenActual.getTipo() == "P_console")
-        {             // Instruccion -> sentencia_while
+        else if (this.puntual_Token.getTipo() == "P_console")
+        {             
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "variable")
-        {             // Instruccion -> sentencia_for
+        else if (this.puntual_Token.getTipo() == "variable")
+        {             
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "tipo")
-        {             // Instruccion -> sentenciaImprime 
+        else if (this.puntual_Token.getTipo() == "P_int" || this.puntual_Token.getTipo() == "P_double"  
+        || this.puntual_Token.getTipo() == "P_char" || this.puntual_Token.getTipo() == "P_string"  || this.puntual_Token.getTipo() == "P_bool"
+        ||this.puntual_Token.getTipo()=="P_void")  //variables char, bool, string, int, 
+        {           
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_while")
-        {             // Instruccion -> switch
+        else if (this.puntual_Token.getTipo() == "P_while")
+        {            
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_do")  //variables char, bool, string, int, 
+        else if (this.puntual_Token.getTipo() == "P_do")  //variables char, bool, string, int, 
         {
             this.Instruccion();
             this.Lista_instPrim();
     
         }
-        else if (this.tokenActual.getTipo() == "P_for")
-        {             // Instruccion -> asignacionSimple 
+        else if (this.puntual_Token.getTipo() == "P_for")
+        {             
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_switch")
-        {             // Instruccion -> asignacionSimple 
+        else if (this.puntual_Token.getTipo() == "P_switch")
+        {             
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_return"&& this.acepta_return_metodos==true)
-        {             // Instruccion -> asignacionSimple 
+        else if (this.puntual_Token.getTipo() == "P_return"&& this.acept_r_met==true)
+        {            
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_return"&& this.acepta_return_fuciones==true)
-        {             // Instruccion -> asignacionSimple 
+        else if (this.puntual_Token.getTipo() == "P_return"&& this.acep_r_fun==true)
+        {           
             this.Instruccion();
             this.Lista_instPrim();
         }
-        else if (this.tokenActual.getTipo() == "P_continue")
-        {             // Instruccion -> asignacionSimple 
+        else if (this.puntual_Token.getTipo() == "P_continue"&&this.s_continue==true)
+        {              
             this.Instruccion();
             this.Lista_instPrim();
         }
-        
-        else {
-    
+        else if (this.puntual_Token.getTipo() == "P_break"&&this.el_switch==true)
+        {            
+            this.Instruccion();
+            this.Lista_instPrim();
         }
 
     }
@@ -149,40 +203,56 @@ constructor(tokens:any[]){
 
     ////////////////////////////////////////////////////////////
 
-    private Instruccion(){ // TODAS LAS INSTRUCCIONES QUE PUEDO HACER 
+    private Instruccion(){ // Instrucciones que reconozco
     // this.ignoraComentarios(); 
-    // TODAS LAS SENTENCIAS QUE PUEDO HACER....  primeros de cada sentencia 
-    if (this.tokenActual.getTipo() == "P_if")
-    {             // Instruccion -> Sentencia_if 
+     
+    if (this.puntual_Token.getTipo() == "P_if")
+    {        
         this.sentencia_if();
     }
-    else if (this.tokenActual.getTipo() == "P_while")
-    {             // Instruccion -> sentencia_while
-        this.sentencia_while();
-    }
-    else if (this.tokenActual.getTipo() == "P_for")
-    {             // Instruccion -> sentencia_for
-        this.sentencia_for();
-    }
-    else if (this.tokenActual.getTipo() == "P_console")
-    {             // Instruccion -> sentenciaImprime 
+    else if (this.puntual_Token.getTipo() == "P_console")
+    {            
         this.SentenciaImprime();
     }
-    else if (this.tokenActual.getTipo() == "P_case")
-    {             // Instruccion -> switch
+    else if (this.puntual_Token.getTipo() == "P_switch")
+    {            
         this.SentenciaSwitch_case();
     }
-    else if (this.tokenActual.getTipo() == "tipo")  //variables char, bool, string, int, 
+    else if (this.puntual_Token.getTipo() == "P_int" || this.puntual_Token.getTipo() == "P_double"  
+    || this.puntual_Token.getTipo() == "P_char" || this.puntual_Token.getTipo() == "P_string"  || this.puntual_Token.getTipo() == "P_bool"
+    ||this.puntual_Token.getTipo()=="P_void")  //variables char, bool, string, int, 
     {
-        this.Declaracion();
-
+        //this.Declaracion(); ///la prueba que realice antes
+        this.Declaracion_adentro_de_metodos_funciones();
     }
-    else if (this.tokenActual.getTipo() == "variable")
-    {             // Instruccion -> asignacionSimple 
+    else if (this.puntual_Token.getTipo() == "variable")
+    {             
         this.asignacionSimple();
     }
-    
-    else {
+    else if (this.puntual_Token.getTipo() == "P_while")
+    {            
+        this.sentencia_while();
+    }
+    else if (this.puntual_Token.getTipo() == "P_do")
+    {              
+        this.Sentencia_do_while();
+    }
+    else if (this.puntual_Token.getTipo() == "P_for")
+    {            
+        this.sentencia_for();
+    }
+    else if (this.puntual_Token.getTipo() == "P_return"&&this.acept_r_met==true)
+    {              
+        this.sentencia_return_metodos();
+    }
+    else if (this.puntual_Token.getTipo() == "P_return"&&this.acep_r_fun==true)
+    {             
+        this.sentencia_return_funciones();
+    }
+    else if (this.puntual_Token.getTipo() == "P_return"&&this.s_continue==true)
+    {             
+        this.sentencia_continue();
+    }else{
 
     }
 
@@ -229,19 +299,19 @@ private ListaIns_entreLLaves(){
 
 
 private opcionMetodoFuncion(){
-    if (this.tokenActual.getTipo() == "P_cierre"){
+    if (this.puntual_Token.getTipo() == "P_cierre"){
        this.parea("P_cierre");
    this.ListaIns_entreLLaves();
-   this.acepta_return_metodos=false;
-   this.acepta_return_fuciones=false;
+   this.acept_r_met=false;
+   this.acep_r_fun=false;
     }else{ 
         this.parea("tipo");
         this.parea("variable");
         this.lista_parametros();
         this.parea("P_cierre");
         this.ListaIns_entreLLaves();
-   this.acepta_return_metodos=false;
-   this.acepta_return_fuciones=false;
+   this.acept_r_met=false;
+   this.acep_r_fun=false;
         
         
   }
@@ -250,7 +320,7 @@ private opcionMetodoFuncion(){
 
 
     private lista_parametros(){
-        if (this.tokenActual.getTipo() == "Coma"){
+        if (this.puntual_Token.getTipo() == "Coma"){
             this.parea("Coma");
             this.parea("tipo");
             this.parea("variable");
@@ -259,7 +329,7 @@ private opcionMetodoFuncion(){
     }
 
 private Declaracion(){
-   if (this.tokenActual.getTipo() == "P_void"){
+   if (this.puntual_Token.getTipo() == "P_void"){
      this.parea("P_void");
      this.parea("variable");
      this.parea("P_apertura");
@@ -276,9 +346,9 @@ this.DeclaracionPrim();
 
 
 private DeclaracionPrim(){
-     if (this.tokenActual.getTipo() == "P_apertura"){
+     if (this.puntual_Token.getTipo() == "P_apertura"){
      this.parea("P_apertura");
-     //this.acepta_return_funciones=true;
+     this.acep_r_fun=true;
      this.opcionMetodoFuncion();
      }else{
          this.Lista_ids();
@@ -289,7 +359,7 @@ private DeclaracionPrim(){
 
 
 private Lista_ids(){
-    if (this.tokenActual.getTipo() == "Coma"){
+    if (this.puntual_Token.getTipo() == "Coma"){
     this.parea("Coma");
     this.parea("variable");
     this.Lista_ids();
@@ -297,7 +367,7 @@ private Lista_ids(){
 }
     
 private asignacion(){
-    if (this.tokenActual.getTipo() == "Igual"){
+    if (this.puntual_Token.getTipo() == "Igual"){
         this.parea("Igual");
         this.expresion();
     }else{}
@@ -311,7 +381,7 @@ private asignacionSimple(){
 }
 
 private OpcionAsignacion(){
-    if (this.tokenActual.getTipo() == "Igual"){
+    if (this.puntual_Token.getTipo() == "Igual"){
 this.parea("Igual");
 this.expresion();
 this.parea("Punto_coma");
@@ -326,8 +396,8 @@ this.parea("Punto_coma");
 
 //////////////////////////  Do while
 private Sentencia_do_while(){
-           //this.acepta_sentencia_continue=true;
-    //this.acepta_sentencia_break=true;
+    this.s_continue=true;
+    this.s_break=true;
      this.parea("P_do");
      this.ListaIns_entreLLaves();
      this.parea("P_while");
@@ -335,8 +405,8 @@ private Sentencia_do_while(){
      this.lista_expresiones_condicionales();
      this.parea("P_cierre");
      this.parea("Punto_coma");
-     //this.acepta_sentencia_continue=false;
-    //this.acepta_sentencia_break=false;
+    this.s_continue=false;
+    this.s_break=false;
 }
 
 
@@ -347,8 +417,9 @@ private ListaExpresiones(){
     this.expresion();
     this.Lista_expresionP();
 }
+
 private Lista_expresionP(){
-    if(this.tokenActual.getTipo()=="Coma"){
+    if(this.puntual_Token.getTipo()=="Coma"){
     this.parea("Coma");
     this.expresion();
     this.Lista_expresionP();
@@ -367,12 +438,12 @@ private Lista_expresionP(){
         this.elsePrim();       
     }
     private elsePrim(){
-        if(this.tokenActual.getTipo()=="P_else"){
+        if(this.puntual_Token.getTipo()=="P_else"){
         this.parea("P_else");
         this.multiplesIf();}else{}
     }
     private multiplesIf(){
-        if(this.tokenActual.getTipo()=="Llave_apertura"){
+        if(this.puntual_Token.getTipo()=="Llave_apertura"){
         this.ListaIns_entreLLaves();
         }else{
         this.sentencia_if();
@@ -380,21 +451,21 @@ private Lista_expresionP(){
         }
  ////////////////////////      while                  
 private sentencia_while(){
-       //this.acepta_sentencia_continue=true;
-    //this.acepta_sentencia_break=true;
+    this.s_continue=true;
+    this.s_break=true;
     this.parea("P_while");
     this.parea("P_apertura");
     this.lista_expresiones_condicionales();
     this.parea("P_cierre");
     this.ListaIns_entreLLaves();
-    //this.acepta_sentencia_continue=false;
-    //this.acepta_sentencia_break=false;
+    this.s_continue=false;
+    this.s_break=false;
 }
 
 /////////////////////////////        For
 private sentencia_for(){
-           //this.acepta_sentencia_continue=true;
-    //this.acepta_sentencia_break=true;
+           //this.s_continue=true;
+    //this.s_break=true;
     this.parea("P_for");
     this.parea("P_apertura");
     this.declaracionFor();
@@ -405,18 +476,18 @@ private sentencia_for(){
     this.DecrementoIncremento();
     this.parea("P_cierre");
     this.ListaIns_entreLLaves();
-           //this.acepta_sentencia_continue=false;
-    //this.acepta_sentencia_break=false;
+           //this.s_continue=false;
+    //this.s_break=false;
 }
 private DecrementoIncremento(){
-    if(this.tokenActual.getTipo()=="Incremento"){
+    if(this.puntual_Token.getTipo()=="Incremento"){
         this.parea("Incremento");
     }else{
         this.parea("Decremento");
     }
 }
 private declaracionFor(){
-    if(this.tokenActual.getTipo()=="variable"){
+    if(this.puntual_Token.getTipo()=="variable"){
         this.parea("variable");
         this.parea("Igual");
         this.expresion();
@@ -438,7 +509,7 @@ private lista_expresiones_condicionales(){
 private lista_expresiones_condicionalesP(){
  //   this.ignoraComentarios();
 
-if(this.tokenActual.getTipo()=="Comparacion"){
+if(this.puntual_Token.getTipo()=="Comparacion"){
 this.parea("Comparacion");
 this.expresion();
 this.lista_expresiones_condicionalesP();
@@ -471,7 +542,7 @@ this.lista_expresiones_condicionalesP();
 
 
 private Default(){
-    if(this.tokenActual.getTipo()=="P_default"){
+    if(this.puntual_Token.getTipo()=="P_default"){
         this.parea("P_default");
         this.parea("Dos_puntos");
         this.Lista_inst();
@@ -488,7 +559,7 @@ private Default(){
 
 
 private SentenciaSwitch_case(){
-    //this.esta_en_el_switch=true;
+    this.el_switch=true;
     this.parea("P_switch");
     this.parea("P_apertura");
     this.parea("variable");
@@ -497,7 +568,7 @@ private SentenciaSwitch_case(){
     this.ListaCases();
     this.Default();
     this.parea("Llave_cierre");
-    //this.esta_en_el_switch =false;
+    this.el_switch =false;
 }
 
 private ListaCases(){
@@ -508,7 +579,7 @@ private ListaCases(){
     }
 
 private ListaCasesPrim(){
-    if(this.tokenActual.getTipo()=="P_case"){
+    if(this.puntual_Token.getTipo()=="P_case"){
         this.caseP();
         //this.parea("P_case");
         this.ListaCasesPrim();
@@ -517,7 +588,7 @@ private ListaCasesPrim(){
 }
 
 private OpcionBreak(){
-    if(this.tokenActual.getTipo()=="P_break"){
+    if(this.puntual_Token.getTipo()=="P_break"){
         this.parea("P_break");
         this.parea("Punto_coma");
     }else{}
@@ -535,13 +606,16 @@ private caseP(){
 }
 
 private OpcionCase(){
-    if(this.tokenActual.getTipo()=="numero"){
+    if(this.puntual_Token.getTipo()=="numero"){
      this.parea("numero");
-    }else if(this.tokenActual.getTipo()=="Cadena"){
+    }else if(this.puntual_Token.getTipo()=="Cadena"){
         this.parea("Cadena");
-    }else if(this.tokenActual.getTipo()=="Char"){
+    }else if(this.puntual_Token.getTipo()=="double"){
+        this.parea("Cadena");
+    }
+    else if(this.puntual_Token.getTipo()=="Char"){
     this.parea("Char");
-    }else if(this.tokenActual.getTipo()=="variable"){
+    }else if(this.puntual_Token.getTipo()=="variable"){
         this.parea("variable");
         }
 }
@@ -555,14 +629,14 @@ private expresion(){
 
 
 private simboloComparacionOpcional(){
-if(this.tokenActual.getTipo()=="Comparacion"){
+if(this.puntual_Token.getTipo()=="Comparacion"){
     this.parea("Comparacion");
     this.E();
-}else if(this.tokenActual.getTipo()=="Mayor"){
+}else if(this.puntual_Token.getTipo()=="Mayor"){
     this.parea("Mayor");
     this.E();
-}else if(this.tokenActual.getTipo()=="Menor"){
-    this.parea("Mayor ");
+}else if(this.puntual_Token.getTipo()=="Menor"){
+    this.parea("Menor");
     this.E();
 }else{}
 }
@@ -573,11 +647,11 @@ this.Eprim();
 }
 
 private Eprim(){
-if(this.tokenActual.getTipo()=="Suma"){
+if(this.puntual_Token.getTipo()=="Suma"){
     this.parea("Suma");
     this.T();
     this.Eprim();
-}else if(this.tokenActual.getTipo()=="Resta"){
+}else if(this.puntual_Token.getTipo()=="Resta"){
     this.parea("Resta");
     this.T();
     this.Eprim();
@@ -590,12 +664,12 @@ this.Tprim();
 
 }
 private Tprim(){
-    if(this.tokenActual.getTipo()=="Multiplicacion"){
+    if(this.puntual_Token.getTipo()=="Multiplicacion"){
         this.parea("Multiplicacion");
         this.F();
         this.Tprim();
-    }else if(this.tokenActual.getTipo()=="Resta"){
-        this.parea("Resta");
+    }else if(this.puntual_Token.getTipo()=="Division"){
+        this.parea("Division");
         this.F();
         this.Tprim();
     }else{}
@@ -603,29 +677,38 @@ private Tprim(){
 }
 
 
-private F(){
-    if(this.tokenActual.getTipo()=="Cadena"){
+private F():void{
+    if(this.puntual_Token.getTipo()=="Cadena"){
         this.parea("Cadena");
-    }else if(this.tokenActual.getTipo()=="variable"){
+    }else if(this.puntual_Token.getTipo()=="variable"){
         this.parea("variable");// ID
         this.ExpresionMetodo();
-    }else if(this.tokenActual.getTipo()=="booleano"){
-        this.parea("booleano");
-    }else if(this.tokenActual.getTipo()=="numero"){
+    }else if(this.puntual_Token.getTipo()=="double"){
+        this.parea("double");// ID
+        this.ExpresionMetodo();
+    }else if(this.puntual_Token.getTipo()=="P_apertura"){
+        this.parea("P_apertura");
+        this.expresion();
+        this.parea("P_cierre");
+    }else if(this.puntual_Token.getTipo()=="false"){
+        this.parea("false");
+    }else if(this.puntual_Token.getTipo()=="true"){
+        this.parea("true");
+    }else if(this.puntual_Token.getTipo()=="numero"){
         this.parea("numero");
-    }else if(this.tokenActual.getTipo()=="Char"){
+    }else if(this.puntual_Token.getTipo()=="Char"){
         this.parea("Char");
     }else{this.expresion();}
 }
 private ExpresionMetodo(){
-    if(this.tokenActual.getTipo()=="P_apertura"){
+    if(this.puntual_Token.getTipo()=="P_apertura"){
     this.parea("P_apertura");
     this.sentencia_llama_metodo();
 }else{}
 }
 
 private sentencia_llama_metodo(){
-    if(this.tokenActual.getTipo()=="P_cierre"){
+    if(this.puntual_Token.getTipo()=="P_cierre"){
      
         this.parea("P_cierre");
 
@@ -635,39 +718,47 @@ private sentencia_llama_metodo(){
 }
 
 
+private ingoraComentarios():void{
+    while(this.puntual_Token.getTipo()=="Comentario"){
+        this.sig++;
+        this.puntual_Token=this.listaTokens[this.sig];
+    }
+}
+
+
+
 
 
     private parea(tip : string):void{
     // LLAMAR A IGNORA COMENTARIOS 
     //this.ignoraComentarios();
-    if(this.tokenActual.getTipo() != tip){
+    if(this.puntual_Token.getTipo() != tip){
     if(this.hay_error == false){
-       // this.lista_errores_sin.push(new ErroresSintacticos(this.tokenActual.getFila() , this.tokenActual.getColumna() ,this.getTipoParaError(tip), this.tokenActual.getTipo_str() ));
-        console.log("se activo un error en la fila " + this.tokenActual.getFila() + "SE ESPERABA " + tip + " en lugar de "+ this.tokenActual.getTipo() );
+       // this.lista_errores_sin.push(new ErroresSintacticos(this.puntual_Token.getFila() , this.puntual_Token.getColumna() ,this.getTipoParaError(tip), this.puntual_Token.getTipo_str() ));
+        console.log("se activo un error en la fila " + this.puntual_Token.getFila() + "SE ESPERABA " + tip + " en lugar de "+ this.puntual_Token.getTipo() );
         this.hay_error = true;
     }
-    }
-            
-    if((this.hay_error == true && this.tokenActual.getTipo() == "Punto_coma" && tip == "Punto_coma") || (this.hay_error == true && this.tokenActual.getTipo() == "Llave_cierre" && tip == "Llave_cierre") ){// truncamiento de fin de 
+    }            
+    if((this.hay_error == true && this.puntual_Token.getTipo() == "Punto_coma" && tip == "Punto_coma") || (this.hay_error == true && this.puntual_Token.getTipo() == "Llave_cierre" && tip == "Llave_cierre") ){// truncamiento de fin de 
        this.hay_error = false;
-       console.log("COMIENZA A ANALIZAR NORMAL a partir de la fila :  " + this.tokenActual.getFila());
+       console.log("COMIENZA A ANALIZAR NORMAL a partir de la fila :  " + this.puntual_Token.getFila());
     }
  
-    if (this.tokenActual.getTipo() != "Ultimo") // AGREGAR EL SHARP 
+    if (this.puntual_Token.getTipo() != "Ultimo") // AGREGAR EL SHARP 
     {  
 
        
          
         if(this.hay_error){
             // CUANDO DEJO DE CAMBIAR DE TOKENS , debo desechar hasta llegar a punto y coma o llave de cierre
-            if(this.tokenActual.getTipo() != "Punto_coma" && this.tokenActual.getTipo() != "Llave_cierre" ){
+            if(this.puntual_Token.getTipo() != "Punto_coma" && this.puntual_Token.getTipo() != "Llave_cierre" ){
             this.sig++;
-            this.tokenActual = this.listaTok[this.sig];
+            this.puntual_Token = this.listaTokens[this.sig];
             }   
           
         }else{
             this.sig++;
-            this.tokenActual = this.listaTok[this.sig];
+            this.puntual_Token = this.listaTokens[this.sig];
         }
     
     }

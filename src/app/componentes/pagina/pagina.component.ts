@@ -74,7 +74,10 @@ Guardar() {
 
 GuardarComo(){
 }
-
+SaveDemo() {
+  let file = new Blob(["hello world"], { type: "text/csv;charset=utf-8" });
+  saveAs(file, "helloworld.csv")
+  }
 
 
 public concatenar="";
@@ -94,6 +97,7 @@ public iterador:number = 0;
 public id:number=0;
 
 analizador(){
+ // console.log('something awesome');
 
 
 while (this.iterador < this.codigo.length) {
@@ -416,26 +420,51 @@ this.concatenar="";
    || this.codigo[this.iterador+1] == '+' || this.codigo[this.iterador+1] == '!' || this.codigo[this.iterador+1] == '=' 
    || this.codigo[this.iterador+1] == '-' || this.codigo[this.iterador+1] == '/' || this.codigo[this.iterador+1] == '*' 
    || this.codigo[this.iterador+1] == '.' || this.codigo[this.iterador+1] == ':' || this.codigo[this.iterador+1] == '#'
-   || this.codigo[this.iterador+1] == '{' || this.codigo[this.iterador+1] == '}'|| this.codigo[this.iterador+1] == '\'' )
+   || this.codigo[this.iterador+1] == '{' || this.codigo[this.iterador+1] == '}'|| this.codigo[this.iterador+1] == '\'' 
+   || this.codigo[this.iterador+1] == '<'|| this.codigo[this.iterador+1] == '>')
    { 
     if(this.concatenar.length>0){
                                 let nuevo2=new token();      nuevo2.setValor(this.concatenar);   
     
 
-                                if(this.concatenar=="class"){nuevo2.setTipo("P_class");}else if(this.concatenar=="int"){nuevo2.setTipo("tipo");} 
+                                if(this.concatenar=="class"){nuevo2.setTipo("P_class");}else if(this.concatenar=="int"){nuevo2.setTipo("P_int");} 
                                 else if(this.concatenar=="var"){nuevo2.setTipo("var");}else if(this.concatenar=="else"){nuevo2.setTipo("P_else");}
-                                else if(this.concatenar=="void"){nuevo2.setTipo("P_void");}else if(this.concatenar=="double"){nuevo2.setTipo("tipo");}
-                                else if(this.concatenar=="char"){nuevo2.setTipo("tipo");}else if(this.concatenar=="string"){nuevo2.setTipo("tipo");}
+                                else if(this.concatenar=="void"){nuevo2.setTipo("P_void");}else if(this.concatenar=="double"){nuevo2.setTipo("P_double");}
+                                else if(this.concatenar=="char"){nuevo2.setTipo("P_char");}else if(this.concatenar=="string"){nuevo2.setTipo("P_string");}
                                 else if(this.concatenar=="while"){nuevo2.setTipo("p_while");}else if(this.concatenar=="for"){nuevo2.setTipo("P_for");}
                                 else if(this.concatenar=="if"){nuevo2.setTipo("P_if");}else if(this.concatenar=="Console"){nuevo2.setTipo("P_console");}
                                 else if(this.concatenar=="Write"){nuevo2.setTipo("P_write");}else if(this.concatenar=="return"){nuevo2.setTipo("P_return");}
-                                else if(this.concatenar=="continue"){nuevo2.setTipo("P_continue");}else if(this.concatenar=="bool"){nuevo2.setTipo("tipo");}
+                                else if(this.concatenar=="continue"){nuevo2.setTipo("P_continue");}else if(this.concatenar=="bool"){nuevo2.setTipo("P_bool");}
                                 else if(this.concatenar=="case"){nuevo2.setTipo("P_case");}else if(this.concatenar=="break"){nuevo2.setTipo("P_break");}
-                                else if(this.concatenar=="main"){nuevo2.setTipo("P_main");}else if(this.concatenar=="default"){nuevo2.setTipo("P_default");}
-                                else if(this.concatenar=="true"){nuevo2.setTipo("booleano");}else if(this.concatenar=="false"){nuevo2.setTipo("booleano");}
+                                else if(this.concatenar=="main"){nuevo2.setTipo("variable");}else if(this.concatenar=="default"){nuevo2.setTipo("P_default");}
+                                else if(this.concatenar=="true"){nuevo2.setTipo("true");}else if(this.concatenar=="false"){nuevo2.setTipo("false");}
                                 else if(this.concatenar=="Tipo"){nuevo2.setTipo("tipo");}else if(this.concatenar=="switch"){nuevo2.setTipo("P_switch");}
                                 else if(this.concatenar=="do"){nuevo2.setTipo("P_do");}
-                                else if(Number(this.concatenar)>=0){nuevo2.setTipo("numero");}else{nuevo2.setTipo("variable");}
+                                else if(Number(this.concatenar)>=0){
+                                  if (this.codigo[this.iterador+1] == '.'){  /////////////////// para detectar double
+                                    this.iterador++;
+                                    for (var _j = 0; _j < this.codigo.length; _j++)
+                                    { //abro for
+                                        
+                                     
+                                      if (this.codigo[this.iterador] == ',' || this.codigo[this.iterador] == '/' ||this.codigo[this.iterador] == '+'
+                                      || this.codigo[this.iterador] == '-'|| this.codigo[this.iterador] == ';'|| this.codigo[this.iterador] == '*'
+                                      || this.codigo[this.iterador] == ' '|| this.codigo[this.iterador] == ')'
+                                      )
+
+                                      { this.iterador--; nuevo2.setValor(this.concatenar);   break; }
+                                       this.concatenar = this.concatenar + this.codigo[this.iterador];                   
+                                      this.iterador++;
+                                    }////cierro For
+
+
+                                    nuevo2.setTipo("double");
+                                  }else{
+                                    nuevo2.setTipo("numero");
+                                  }
+                                  
+                                ///////////////////////////////
+                                }else{nuevo2.setTipo("variable");}
 
                                 nuevo2.setColumna(this.columna);      nuevo2.setFila(this.fila);    this.tokens.push(nuevo2);
                                  }

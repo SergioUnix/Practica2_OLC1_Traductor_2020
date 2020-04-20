@@ -35,11 +35,11 @@ constructor(tokens:any[]){
     this.sig = 0 ; 
     this.puntual_Token = this.listaTokens[this.sig];
     // Mensaje de Inicio del Analisis
-    console.log("INICIA A ANALIZAR");
+    console.log("Empezando a Analizar el Documento");
 
     //this.ignoraComentarios();
     this.inicio();
-    console.log("TERMINO DE ANALIZAR");
+    console.log("Termina el Analisis Sintactico");
     
 
     this.acept_r_met=false;

@@ -75,7 +75,7 @@ constructor(tokens:any[]){
         this.parea("variable"); 
          this.parea("Llave_apertura"); 
      //      this.Lista_inst();  //la otra prueba que realice
-     this.Lista_Declaraciones_metFunVar();
+     this.ListDeclar_metodoFun();
      
             this.parea("Llave_cierre");    
     }
@@ -86,21 +86,21 @@ constructor(tokens:any[]){
 
 
 
-private Lista_Declaraciones_metFunVar(){
+private ListDeclar_metodoFun(){
       if (this.puntual_Token.getTipo()=="P_void"){
           this.Declaracion();
-           this.Lista_Declaraciones_metFunVarP();
+           this.ListDeclar_metodoFunP();
       }else{}
 }
-private Lista_Declaraciones_metFunVarP(){
+private ListDeclar_metodoFunP(){
     if (this.puntual_Token.getTipo()=="P_void"){
         this.Declaracion();
-        this.Lista_Declaraciones_metFunVarP();
+        this.ListDeclar_metodoFunP();
     }else{}
 
 
 }
-private Declaracion_adentro_de_metodos_funciones(){
+private Declar_dentro_metodoFun(){
     this.Tipo(); this.parea("variable");  this.DeclaracionP_metodos();
 }
 
@@ -223,7 +223,7 @@ if (this.puntual_Token.getTipo() == "P_int") {
     ||this.puntual_Token.getTipo()=="P_void")  //variables char, bool, string, int, 
     {
         //this.Declaracion(); ///la prueba que realice antes
-        this.Declaracion_adentro_de_metodos_funciones();
+        this.Declar_dentro_metodoFun();
     }
     else if (this.puntual_Token.getTipo() == "variable")
     {             
@@ -402,7 +402,7 @@ private Sentencia_do_while(){
      this.ListaIns_entreLLaves();
      this.parea("P_while");
      this.parea("P_apertura");
-     this.lista_expresiones_condicionales();
+     this.list_condicional();
      this.parea("P_cierre");
      this.parea("Punto_coma");
     this.s_continue=false;
@@ -432,7 +432,7 @@ private Lista_expresionP(){
     private sentencia_if(){
         this.parea("P_if");
         this.parea("P_apertura");
-        this.lista_expresiones_condicionales();
+        this.list_condicional();
         this.parea("P_cierre");
         this.ListaIns_entreLLaves();
         this.elsePrim();       
@@ -455,7 +455,7 @@ private sentencia_while(){
     this.s_break=true;
     this.parea("P_while");
     this.parea("P_apertura");
-    this.lista_expresiones_condicionales();
+    this.list_condicional();
     this.parea("P_cierre");
     this.ListaIns_entreLLaves();
     this.s_continue=false;
@@ -470,7 +470,7 @@ private sentencia_for(){
     this.parea("P_apertura");
     this.declaracionFor();
     this.parea("Punto_coma");
-    this.lista_expresiones_condicionales();
+    this.list_condicional();
     this.parea("Punto_coma");
     this.parea("variable");
     this.DecrementoIncremento();
@@ -501,18 +501,18 @@ private declaracionFor(){
 
 
 
-private lista_expresiones_condicionales(){
+private list_condicional(){
     this.expresion();
-    this.lista_expresiones_condicionalesP();
+    this.list_condicionalP();
      
 }
-private lista_expresiones_condicionalesP(){
+private list_condicionalP(){
  //   this.ignoraComentarios();
 
 if(this.puntual_Token.getTipo()=="Comparacion"){
 this.parea("Comparacion");
 this.expresion();
-this.lista_expresiones_condicionalesP();
+this.list_condicionalP();
     }else{}
 
 }
@@ -612,8 +612,7 @@ private OpcionCase(){
         this.parea("Cadena");
     }else if(this.puntual_Token.getTipo()=="double"){
         this.parea("Cadena");
-    }
-    else if(this.puntual_Token.getTipo()=="Char"){
+    }else if(this.puntual_Token.getTipo()=="Char"){
     this.parea("Char");
     }else if(this.puntual_Token.getTipo()=="variable"){
         this.parea("variable");

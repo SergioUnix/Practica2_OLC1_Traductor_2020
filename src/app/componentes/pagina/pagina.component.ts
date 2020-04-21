@@ -4,6 +4,7 @@ import * as saveAs from 'file-saver';
 
 import {token}from 'src/app/clases/token';
 import {Sintactico}from 'src/app/clases/Sintactico';
+import {HTML_traduce}from 'src/app/clases/HTML_Traduce';
 import { NullTemplateVisitor } from '@angular/compiler';
 
 //declare function isNaN(number: number): boolean;
@@ -74,12 +75,41 @@ Guardar() {
 
 GuardarComo(){
 }
+
+
+
+
+
+
+
+
+
+
 SaveDemo() {
   let file = new Blob(["hello world"], { type: "text/csv;charset=utf-8" });
   saveAs(file, "helloworld.csv")
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 public concatenar="";
 public concatenar2="";
 public comodin="";
@@ -482,7 +512,7 @@ this.columna++;
 }//cierra el while
 
 
-
+///aca visualizo los tokens en la consola
 this.tokens.forEach(function (value) {
   console.log(value);
 });
@@ -493,12 +523,16 @@ for (let name of this.html) {
   console.log(name);
 }
 
-let ultimo=new token();
+let ultimo=new token();  ///Agrego un token al final porque es el de aceptacion
 ultimo.setValor("Ultimo");  ultimo.setTipo("Ultimo");
 this.tokens.push(ultimo);
+let objeto=new Sintactico(this.tokens); ////aca mando la lista de tokens para ser analizada
 
-let objeto=new Sintactico(this.tokens);
 
+
+////Creo el objeto para realizar el HTML
+let traductor=new HTML_traduce(this.html); ////aca mando la lista de tokens para ser analizada
+traductor.getnew_cadena();
 
 
 

@@ -37,7 +37,7 @@ constructor(tokens:any[]){
     // Mensaje de Inicio del Analisis
     console.log("Empezando a Analizar el Documento");
 
-    //this.ignoraComentarios();
+    //this.ignorarComent();
     this.inicio();
     console.log("Termina el Analisis Sintactico");
     
@@ -204,7 +204,7 @@ if (this.puntual_Token.getTipo() == "P_int") {
     ////////////////////////////////////////////////////////////
 
     private Instruccion(){ // Instrucciones que reconozco
-    // this.ignoraComentarios(); 
+    // this.ignorarComent(); 
      
     if (this.puntual_Token.getTipo() == "P_if")
     {        
@@ -507,7 +507,7 @@ private list_condicional(){
      
 }
 private list_condicionalP(){
- //   this.ignoraComentarios();
+ //   this.ignorarComent();
 
 if(this.puntual_Token.getTipo()=="Comparacion"){
 this.parea("Comparacion");
@@ -730,7 +730,7 @@ private ingoraComentarios():void{
 
     private parea(tip : string):void{
     // LLAMAR A IGNORA COMENTARIOS 
-    //this.ignoraComentarios();
+    //this.ignorarComent();
     if(this.puntual_Token.getTipo() != tip){
     if(this.hay_error == false){
        // this.lista_errores_sin.push(new ErroresSintacticos(this.puntual_Token.getFila() , this.puntual_Token.getColumna() ,this.getTipoParaError(tip), this.puntual_Token.getTipo_str() ));

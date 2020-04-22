@@ -13,6 +13,10 @@ import { NullTemplateVisitor } from '@angular/compiler';
   templateUrl: './pagina.component.html',
   styleUrls: ['./pagina.component.css']
 })
+
+
+
+
 export class PaginaComponent implements OnInit {
 
 //  @HostBinding('class') classes='row';  //necesario para desplegar un juego a la par de otro 
@@ -36,6 +40,8 @@ file:any;
 
 
   constructor() {
+
+
   //this.titulo="Hola mundo, soy un componente ";
   //this.comentario = "Este es mi primer componenete ";
   //this.year = 2020;
@@ -76,38 +82,10 @@ Guardar() {
 GuardarComo(){
 }
 
-
-
-
-
-
-
-
-
-
 SaveDemo() {
   let file = new Blob(["hello world"], { type: "text/csv;charset=utf-8" });
   saveAs(file, "helloworld.csv")
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   
 public concatenar="";
@@ -518,10 +496,11 @@ this.tokens.forEach(function (value) {
 });
 
 
-
-for (let name of this.html) {
-  console.log(name);
+/////////   For que concatena el codigo de html
+for(let i = 0;i< this.htmls.length ;i++){
+this.html=this.html+this.htmls[i].getValor();
 }
+ 
 
 let ultimo=new token();  ///Agrego un token al final porque es el de aceptacion
 ultimo.setValor("Ultimo");  ultimo.setTipo("Ultimo");
@@ -533,7 +512,7 @@ let objeto=new Sintactico(this.tokens); ////aca mando la lista de tokens para se
 ////Creo el objeto para realizar el HTML
 let traductor=new HTML_traduce(this.html); ////aca mando la lista de tokens para ser analizada
 traductor.getnew_cadena();
-
+ this.consola= traductor.getCad_JSON();
 
 
 

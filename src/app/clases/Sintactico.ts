@@ -682,6 +682,9 @@ private F():void{
     }else if(this.puntual_Token.getTipo()=="variable"){
         this.parea("variable");// ID
         this.ExpresionMetodo();
+    }else if(this.puntual_Token.getTipo()=="Html"){
+        this.parea("Html");// ID
+      
     }else if(this.puntual_Token.getTipo()=="double"){
         this.parea("double");// ID
         this.ExpresionMetodo();

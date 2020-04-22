@@ -8,7 +8,7 @@ export class HTML_traduce{
 
   // Traduzco el Html
   private identificador_bool:boolean= true;   private atributo_actual:string = ""; 
-  private Eti_br:boolean; 
+  private Etiqueta_Salto:boolean; 
  ////////////////////////////Realizo mi constructor 
   constructor(cadena_html:string){
       this.cont_tabu = 0 ;       this.new_cadena = cadena_html;
@@ -23,7 +23,7 @@ export class HTML_traduce{
   }
 
   private ejecuta_formato(){
-  console.log("CADENA HTML: " + this.cadena_Anterior);
+ // console.log("CADENA HTML: " + this.cadena_Anterior);         //////////////
   this.new_cadena = "";          this.cadena_Result = "";
   this.cadena_Anterior += "\n";  this.auxi = 0; 
   this.aux_lexico = "";          let act:string =""; 
@@ -63,7 +63,7 @@ private Generate(){
     posPasado = i;    this.t_();   this.aux_lexico = this.aux_lexico.trim();
     if(this.aux_lexico.length > 0 ){
     this.cadena_Result += "\"TEXT\":  " +"\"" +this.aux_lexico +"\""; }                     
-    this.aux_lexico ="";  this.cadena_Result += "\n";  this.aux_lexico += "\"";  this.Eti_br = false;  this.auxi = 1; 
+    this.aux_lexico ="";  this.cadena_Result += "\n";  this.aux_lexico += "\"";  this.Etiqueta_Salto = false;  this.auxi = 1; 
   }else{  this.aux_lexico += this.cadena_Anterior[i];   }
   break;
   case 1: 
@@ -72,9 +72,14 @@ private Generate(){
   this.cadena_Result += "}";   this.cont_tabu--;
   }else{  this.aux_lexico += this.cadena_Anterior[i];   this.auxi = 2 ;
   let atributo:string = this.getAtributo_etiqueta(i);
-  if(atributo[0] == "\""){  console.log("si es un atributo");  this.atributo_actual = atributo;
-  }else{  console.log("VIENE-" + atributo );  this.atributo_actual  = "";   }
-  if(atributo[0] == "b" || atributo[0] == "B" ){  this.Eti_br = true;  console.log("VIENE BR "  + atributo);  }
+  if(atributo[0] == "\""){  
+  //  console.log("si es un atributo");  this.atributo_actual = atributo;    ////////////////
+  }else{
+    //  console.log("VIENE-" + atributo );  this.atributo_actual  = "";   ////////////////
+  }
+  if(atributo[0] == "b" || atributo[0] == "B" ){  this.Etiqueta_Salto = true; 
+    // console.log("VIENE BR "  + atributo);     /////////////////////////
+    }  
                   
   this.identificador_bool = true;  this.cont_tabu++;  this.t_();     this.cadena_Result += this.aux_lexico;   }
   this.aux_lexico =""; 
@@ -84,7 +89,7 @@ private Generate(){
   this.cadena_Result += this.aux_lexico;  this.aux_lexico ="";  this.cadena_Result+= "\":{\n"
   if(this.atributo_actual.length != 0 ){  this.t_();  this.cadena_Result+="\"STYLE\":"+this.atributo_actual+"\n";  }
   this.auxi = 0;
-  if(this.Eti_br == true){
+  if(this.Etiqueta_Salto == true){
   this.t_();   this.cadena_Result+="}\n"; this.cont_tabu--;  } 
   }else{ if(act == " "){  this.aux_lexico.trim();
   if(this.aux_lexico.length != 0 && this.identificador_bool == true ){  
@@ -123,7 +128,8 @@ private Generate(){
   else{  ATRIB += char_actual;  }}
   ATRIB = ATRIB.trim();
  if(ATRIB[0] == "\""){
-  console.log("RETORNA ATRIBUTO: "+ATRIB); }
+//  console.log("RETORNA ATRIBUTO: "+ATRIB);   ////////////////
+}
   return ATRIB; 
   }
   

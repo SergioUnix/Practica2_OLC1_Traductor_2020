@@ -175,6 +175,7 @@ T'->*FT'
 F-> Decimales
  | Cadena
  | "variable" ExpresionMetodo
+ | Html
  | true
  | false
  | Numero

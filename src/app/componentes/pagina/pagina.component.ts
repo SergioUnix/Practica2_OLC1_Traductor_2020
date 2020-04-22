@@ -33,6 +33,7 @@ public codigo;
 public consola;
 public python;
 public html="";
+public Json="";
 
 
 file:any;
@@ -512,7 +513,7 @@ let objeto=new Sintactico(this.tokens); ////aca mando la lista de tokens para se
 ////Creo el objeto para realizar el HTML
 let traductor=new HTML_traduce(this.html); ////aca mando la lista de tokens para ser analizada
 traductor.getnew_cadena();
- this.consola= traductor.getCad_JSON();
+ this.Json= traductor.getCad_JSON();
 
 
 

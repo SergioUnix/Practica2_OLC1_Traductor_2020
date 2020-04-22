@@ -61,12 +61,12 @@
 
 
 <h1 class="my-4">
-  <div class="card-footer text-muted">
-    Codigo en C#
-  </div >
+  
+    <h1 class="card-header">Codigo en C#</h1>
+
 </h1>
               
-<h5 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged($event)">      </h5>
+<h3 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged($event)">      </h3>
 
 
     <ngx-codemirror 
@@ -113,7 +113,7 @@
         <!-- Consola -->
         <div class="card mb-4">
               
-          <h5 class="card-title">Consola</h5>                  
+          <h2 class="card-header">Consola</h2>                
 
         <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
         <ngx-codemirror 
@@ -124,8 +124,6 @@
           styeleActiveLine:true,
           theme: 'eclipse',
           mode: 'javascript'
-
-
         }"></ngx-codemirror>
 
 
@@ -155,49 +153,93 @@
       <!-- Columna derecha -->
       <div class="col-md-6">
 
-           <!-- HTML -->
-           <div class="card my-4">
-            <h5 class="card-header">Python</h5>
-         <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
-         <ngx-codemirror 
-         [(ngModel)]="python"
-         [options]="{
-           lineNumbers: true,
-           matchBrackets: true,
-           styeleActiveLine:true,
-           theme: 'cobalt',
-           mode: 'python'
- 
- 
-         }" ></ngx-codemirror>
-           </div>
-
-
-        <!-- HTML -->
+          
+<!-- Side  hecho con angular Material -->
         <div class="card my-4">
-          <h5 class="card-header">HTML</h5>
-      <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
-      <ngx-codemirror 
-      [(ngModel)]="html"
-      [options]="{
-        lineNumbers: true,
-        matchBrackets: true,
-        styeleActiveLine:true,
-        theme: 'dracula',
-        mode: 'go'
+          <h2 class="card-header">Codigo en Varios Ambientes</h2>
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">gesture</mat-icon>
+      Python
+    </ng-template>
+    
+    <ngx-codemirror 
+    [(ngModel)]="python"
+    [options]="{
+      lineNumbers: true,
+      matchBrackets: true,
+      styeleActiveLine:true,
+      theme: 'cobalt',
+      mode: 'python' 
+    }" ></ngx-codemirror>
 
 
-      }"></ngx-codemirror>
-         </div>
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">code</mat-icon>
+      Html
+    </ng-template>
+   
+    <ngx-codemirror 
+    [(ngModel)]="html"
+    [options]="{
+      lineNumbers: true,
+      matchBrackets: true,
+      styeleActiveLine:true,
+      theme: 'dracula',
+      mode: 'go'
+    }"></ngx-codemirror>
 
 
-        <!-- Side Widget -->
-        <div class="card my-4">
-          <h5 class="card-header">Leyenda de Errores</h5>
-          <div class="card-body">
-            Cualquier texto de ayuda!
-          </div>
+
+
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">receipt</mat-icon>
+      Json
+    </ng-template>
+
+    
+    <ngx-codemirror 
+    [(ngModel)]="Json"
+    [options]="{
+      lineNumbers: true,
+      matchBrackets: true,
+      styeleActiveLine:true,
+      theme: 'eclipse',
+      mode: 'javascript'
+    }"></ngx-codemirror>
+
+
+
+
+
+
+  </mat-tab>
+</mat-tab-group>
+</div>
+
+
+      <!-- Side Widget 
+      <div class="card my-4">
+        <h5 class="card-header">Leyenda de Errores</h5>
+        <div class="card-body">
+          Cualquier texto de ayuda!
         </div>
+      </div>
+-->
+
+
+
+
+
+
 
       </div>
 

@@ -7,7 +7,10 @@ import { AppComponent } from './app.component';
 import { PaginaComponent } from './componentes/pagina/pagina.component';
 import { Pagina2Component } from './componentes/pagina2/pagina2.component';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';      //import 'codemirror';
-
+import {MatTabsModule} from '@angular/material/tabs';                 ///esto es para utilizar pestañas en tabs
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'; ////se agrego al instalar angular material
+import { MatSliderModule } from '@angular/material/slider';  ///agrego yo para verificar si funciona mi angular material
+import {MatIconModule} from '@angular/material/icon';  ///agrego los iconos
 
 @NgModule({
   declarations: [
@@ -23,7 +26,11 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';      //import 'codemirr
     BrowserModule,
     HttpClientModule,         //escribo aca el httpClientModule
     FormsModule,             //necesario ponerlo para enlazar datos con el objeto creado tipo interfaz
-    CodemirrorModule
+    CodemirrorModule, 
+    BrowserAnimationsModule,
+    MatSliderModule,             ////agrego yo para probar angulara material
+    MatTabsModule,
+    MatIconModule
   ],
   providers: [
 

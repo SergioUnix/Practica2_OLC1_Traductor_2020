@@ -30,6 +30,9 @@ public isErrorGuardar=false;
 public titulo2 ="hola mundo";
 
 public codigo;
+public codigo1;
+public codigo2;
+public codigo3;
 public consola;
 public python;
 public html="";
@@ -37,6 +40,8 @@ public Json="";
 
 
 file:any;
+file2:any;
+file3:any;
 
 
 
@@ -66,18 +71,48 @@ file:any;
     let fileReader = new FileReader();
     fileReader.onload = (e) => {
      // console.log(fileReader.result);
-      this.codigo = fileReader.result;  ////// Aca mando a una variable para ponerlo en la descripccion
+      this.codigo1 = fileReader.result;  ////// Aca mando a una variable para ponerlo en la descripccion
       console.log(this.file.name);          ////// nombre del archivo abierto
    }
     
     fileReader.readAsText(this.file);
 }
-
+////////////////////////Carga el archivo
+fileChanged2(e) {
+  this.file2 = e.target.files[0];
+  this.uploadDocument2()
+}
+uploadDocument2() {
+  let fileReader = new FileReader();
+  fileReader.onload = (e) => {
+   // console.log(fileReader.result);
+    this.codigo2 = fileReader.result;  ////// Aca mando a una variable para ponerlo en la descripccion
+    console.log(this.file2.name);          ////// nombre del archivo abierto
+ }
+  
+  fileReader.readAsText(this.file2);
+}
+////////////////////////Carga el archivo
+fileChanged3(e) {
+  this.file3 = e.target.files[0];
+  this.uploadDocument3()
+}
+uploadDocument3() {
+  let fileReader = new FileReader();
+  fileReader.onload = (e) => {
+   // console.log(fileReader.result);
+    this.codigo3 = fileReader.result;  ////// Aca mando a una variable para ponerlo en la descripccion
+    console.log(this.file3.name);          ////// nombre del archivo abierto
+ }
+  
+  fileReader.readAsText(this.file3);
+}
 
 //////////Guarda el archivo 
-Guardar() {
+Guardar(parametro) {
+  this.codigo=parametro;
   let file = new Blob([this.codigo], { type: 'text/csv;charset=utf-8' });
-  saveAs(file, 'helloworld.txt')
+  saveAs(file, 'Archivo.txt')
 }
 
 GuardarComo(){
@@ -96,7 +131,8 @@ columna:number=1;
 fila:number =1;
 
 tokens:token[]=[];  ///arreglo de tokens
-errores: any=[];
+errores_sintacticos: token[]=[];
+errores_lexicos: token[]=[];
 htmls:token[]=[];
 comentarios:token[]=[];
 
@@ -105,8 +141,8 @@ comentarios:token[]=[];
 public iterador:number = 0;
 public id:number=0;
 
-analizador(){
- // console.log('something awesome');
+analizador(parametro){
+this.codigo=parametro;
 
 
 while (this.iterador < this.codigo.length) {
@@ -250,7 +286,9 @@ this.concatenar="";
     for (var _j = 0; _j < this.codigo.length; _j++)
   { 
     if (this.codigo[this.iterador] == '\n') { this.columna = 1; this.fila++; }  
-    if (this.codigo[this.iterador] == '\'')
+
+    if (this.codigo[this.iterador] == '\'' && this.codigo[this.iterador+1] == ')'&& this.codigo[this.iterador+2] == ';'||
+     this.codigo[this.iterador] == '\'' && this.codigo[this.iterador+1] == ';')
     { break; }
     this.concatenar = this.concatenar + this.codigo[this.iterador];
                        
@@ -269,9 +307,9 @@ this.concatenar="";
     {     
       for (var _j = 0; _j < this.codigo.length; _j++)
     { 
-      if (this.codigo[this.iterador] == '\n') { this.columna = 1; this.fila++; }     
+      if (this.codigo[this.iterador+1] == '\n') { this.columna = 1;  break;}     
       this.concatenar = this.concatenar + this.codigo[this.iterador];
-      if (this.codigo[this.iterador] == '\n')
+      if (this.codigo[this.iterador+1] == '\n')
       { break; }
                          
       this.iterador++;
@@ -281,7 +319,7 @@ this.concatenar="";
     nuevo.setValor(this.concatenar);   nuevo.setTipo("Comentario");  nuevo.setColumna(this.columna); nuevo.setFila(this.fila);
    // this.tokens.push(nuevo);    
    this.comentarios.push(nuevo); 
-   this.concatenar="";                       
+   this.concatenar="";    this.iterador++;                   
     }
 
 
@@ -294,6 +332,7 @@ this.concatenar="";
       this.concatenar = this.concatenar + this.codigo[this.iterador];
       if (this.codigo[this.iterador] == '*' && this.codigo[this.iterador +1] == '/')
       { break; }
+
                          
       this.iterador++;
     }
@@ -405,8 +444,16 @@ this.concatenar="";
     if (this.codigo[this.iterador] == '<')
     {
       this.concatenar=this.concatenar+this.codigo[this.iterador];
-      let nuevo2=new token();      nuevo2.setValor(this.concatenar);     nuevo2.setTipo("Menor");
+      let nuevo2=new token();      nuevo2.setValor(this.concatenar);     nuevo2.setTipo("Menor"); 
       nuevo2.setColumna(this.columna);      nuevo2.setFila(this.fila);    this.tokens.push(nuevo2);
+      this.concatenar="";
+    }
+
+    if (this.codigo[this.iterador].charCodeAt(0) >126||this.codigo[this.iterador].charCodeAt(0) ==35||this.codigo[this.iterador].charCodeAt(0) ==36
+    ||this.codigo[this.iterador].charCodeAt(0) ==37)
+    {
+      let nuevo2=new token();      nuevo2.setValor(this.codigo[this.iterador].toString());     nuevo2.setTipo("Error Lexico"); 
+      nuevo2.setColumna(this.columna);      nuevo2.setFila(this.fila);    this.errores_lexicos.push(nuevo2);
       this.concatenar="";
     }
 
@@ -440,7 +487,7 @@ this.concatenar="";
                                 else if(this.concatenar=="var"){nuevo2.setTipo("var");}else if(this.concatenar=="else"){nuevo2.setTipo("P_else");}
                                 else if(this.concatenar=="void"){nuevo2.setTipo("P_void");}else if(this.concatenar=="double"){nuevo2.setTipo("P_double");}
                                 else if(this.concatenar=="char"){nuevo2.setTipo("P_char");}else if(this.concatenar=="string"){nuevo2.setTipo("P_string");}
-                                else if(this.concatenar=="while"){nuevo2.setTipo("p_while");}else if(this.concatenar=="for"){nuevo2.setTipo("P_for");}
+                                else if(this.concatenar=="while"){nuevo2.setTipo("P_while");}else if(this.concatenar=="for"){nuevo2.setTipo("P_for");}
                                 else if(this.concatenar=="if"){nuevo2.setTipo("P_if");}else if(this.concatenar=="Console"){nuevo2.setTipo("P_console");}
                                 else if(this.concatenar=="Write"){nuevo2.setTipo("P_write");}else if(this.concatenar=="return"){nuevo2.setTipo("P_return");}
                                 else if(this.concatenar=="continue"){nuevo2.setTipo("P_continue");}else if(this.concatenar=="bool"){nuevo2.setTipo("P_bool");}
@@ -448,7 +495,7 @@ this.concatenar="";
                                 else if(this.concatenar=="main"){nuevo2.setTipo("variable");}else if(this.concatenar=="default"){nuevo2.setTipo("P_default");}
                                 else if(this.concatenar=="true"){nuevo2.setTipo("true");}else if(this.concatenar=="false"){nuevo2.setTipo("false");}
                                 else if(this.concatenar=="Tipo"){nuevo2.setTipo("tipo");}else if(this.concatenar=="switch"){nuevo2.setTipo("P_switch");}
-                                else if(this.concatenar=="do"){nuevo2.setTipo("P_do");}
+                                else if(this.concatenar=="do"){nuevo2.setTipo("P_do");}else if(this.concatenar=="static"){nuevo2.setTipo("P_static");}
                                 else if(Number(this.concatenar)>=0){
                                   if (this.codigo[this.iterador+1] == '.'){  /////////////////// para detectar double
                                     this.iterador++;
@@ -507,6 +554,9 @@ let ultimo=new token();  ///Agrego un token al final porque es el de aceptacion
 ultimo.setValor("Ultimo");  ultimo.setTipo("Ultimo");
 this.tokens.push(ultimo);
 let objeto=new Sintactico(this.tokens); ////aca mando la lista de tokens para ser analizada
+this.errores_sintacticos=objeto.getErrores();   ///aca agrego al arreglo de errores todo nuestros errores
+this.python=objeto.getCadena_traducida();
+
 
 
 
@@ -514,6 +564,10 @@ let objeto=new Sintactico(this.tokens); ////aca mando la lista de tokens para se
 let traductor=new HTML_traduce(this.html); ////aca mando la lista de tokens para ser analizada
 traductor.getnew_cadena();
  this.Json= traductor.getCad_JSON();
+
+ 
+
+
 
 
 

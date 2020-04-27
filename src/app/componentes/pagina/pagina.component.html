@@ -36,7 +36,7 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#" (click)="Guardar()">Guardar
+            <a class="nav-link" >Guardar
               <span class="sr-only">(current)</span>
             </a>
           </li>
@@ -44,10 +44,10 @@
             <a class="nav-link" >  </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#"(click)="Guardar()">Guardar como..</a>
+            <a class="nav-link" >Guardar como..</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Salir</a>
+            <a class="nav-link" >Salir</a>
           </li>
         </ul>
       </div>
@@ -56,42 +56,180 @@
 
   <!-- --------------------------------------------------------------------------------------------r-->
 
-  <div class="col-md-12">
+
+<br>
 <br>
 
 
-<h1 class="my-4">
-  
-    <h1 class="card-header">Codigo en C#</h1>
+<!-- Side  hecho con angular Material -->
+<div class="card text-white bg-dark my-4">
+  <h2 class="card-header">Codigo en C#</h2>
+<mat-tab-group>
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">loupe</mat-icon>
+Pestaña 1
+</ng-template>
 
-</h1>
-              
-<h3 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged($event)">      </h3>
+<ngx-codemirror 
+[(ngModel)]="codigo1"
+[options]="{
+lineNumbers: true,
+matchBrackets: true,
+styeleActiveLine:true,
+theme: 'eclipse',
+mode: 'javascript'
+}"></ngx-codemirror>
+
+<form>
+  <h3 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged($event)">   
+    <a class="nav-link"  (click)="Guardar(codigo1)">Guardar
+      <span class="sr-only">(current)</span>
+    </a>   </h3>
+  <li class="nav-item active">
+    
+  <button class="btn btn-success btn-block" (click)="analizador(codigo1)" >
+     Analizar
+  </button>
+</form>
+</mat-tab>
+
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">loupe</mat-icon>
+Pestaña 2
+</ng-template>
+
+<ngx-codemirror 
+[(ngModel)]="codigo2"
+[options]="{
+lineNumbers: true,
+matchBrackets: true,
+styeleActiveLine:true,
+theme: 'eclipse',
+mode: 'javascript'
+}"></ngx-codemirror>
 
 
-    <ngx-codemirror 
-    [(ngModel)]="codigo"
-    [options]="{
-      lineNumbers: true,
-      matchBrackets: true,
-      styeleActiveLine:true,
-      theme: 'cobalt',
-      mode: 'python'
 
+<form>
+  <h3 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged2($event)">     
+    <a class="nav-link"  (click)="Guardar(codigo2)">Guardar
+      <span class="sr-only">(current)</span>
+    </a> </h3>
+  <button class="btn btn-warning btn-block" (click)="analizador(codigo2)" >
+     Analizar
+  </button>
+</form>
 
-    }"> </ngx-codemirror>
-<div class="card-body">
-  <form>
+</mat-tab>
 
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">loupe</mat-icon>
+Pestaña 3
+</ng-template>
 
-      <button class="btn btn-success btn-block" (click)="analizador()" >
-         Analizar
-
-      </button>
-  </form>
+<ngx-codemirror 
+[(ngModel)]="codigo3"
+[options]="{
+lineNumbers: true,
+matchBrackets: true,
+styeleActiveLine:true,
+theme: 'eclipse',
+mode: 'javascript'
+}"></ngx-codemirror>
+<form>
+  <h3 class="card-title">Cargar Archivo     <input type='file' placeholder="Title" (change)="fileChanged3($event)">  
+    <a class="nav-link"  (click)="Guardar(codigo3)">Guardar
+      <span class="sr-only">(current)</span>
+    </a>    </h3>
+  <button class="btn btn-info btn-block" (click)="analizador(codigo3)" >
+     Analizar
+  </button>
+</form>
+</mat-tab>
+</mat-tab-group>
 </div>
 
-  </div>
+
+
+<br><br>
+
+ 
+
+
+
+
+    
+<!-- Side  hecho con angular Material          readOnly: 'nocursor',   -->
+<div class="card text-white bg-dark my-4">
+  <h2 class="card-header">Codigo en Varios Ambientes</h2>
+<mat-tab-group>
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">gesture</mat-icon>
+Python
+</ng-template>
+
+<ngx-codemirror 
+[(ngModel)]="python"
+[options]="{
+lineNumbers: true,
+matchBrackets: true,
+readOnly: 'nocursor',
+styeleActiveLine:true,
+theme: 'cobalt',
+mode: 'python' 
+}"></ngx-codemirror>
+
+
+</mat-tab>
+
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">code</mat-icon>
+Html
+</ng-template>
+
+<ngx-codemirror 
+[(ngModel)]="html"
+[options]="{
+lineNumbers: true,
+readOnly: 'nocursor',
+matchBrackets: true,
+styeleActiveLine:true,
+theme: 'dracula',
+mode: 'go'
+}"></ngx-codemirror>
+
+
+
+
+
+</mat-tab>
+
+<mat-tab>
+<ng-template mat-tab-label>
+<mat-icon class="example-tab-icon">receipt</mat-icon>
+Json
+</ng-template>
+
+<ngx-codemirror 
+[(ngModel)]="Json"
+[options]="{
+lineNumbers: true,
+matchBrackets: true,
+readOnly: 'nocursor',
+styeleActiveLine:true,
+theme: 'eclipse',
+mode: 'javascript'
+}"></ngx-codemirror>
+
+</mat-tab>
+</mat-tab-group>
+</div>
+
 
 
 
@@ -110,42 +248,82 @@
       <!-- Blog Entries Column -->
       <div class="col-md-6">   
 
+       
+
+
         <!-- Consola -->
         <div class="card mb-4">
               
-          <h2 class="card-header">Consola</h2>                
+               
 
-        <!-- este es para   no modificar nada   ------   readOnly: 'nocursor', -->
-        <ngx-codemirror 
-        [(ngModel)]="consola"
-        [options]="{
-          lineNumbers: true,
-          matchBrackets: true,
-          styeleActiveLine:true,
-          theme: 'eclipse',
-          mode: 'javascript'
-        }"></ngx-codemirror>
+          <div class="card mb-4">
 
+            <div class="card-body">
+              <h2 class="card-title">Errores</h2>
+              <p class="card-text">Sintacticos y Lexicos</p>
+            </div>
+            <table class="table">
+              <thead>
+                <tr >
+                  <th scope="col">#</th>
+                  <th scope="col">Tipo Error</th>
+                  <th scope="col">Linea</th>
+                  <th scope="col">Columna</th>
+                  <th scope="col">Descripcion</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let vari of errores_lexicos">
+                  <th scope="row">{{vari.getID()}}</th>
+                  <td>{{vari.getTipo()}}</td>
+                  <td>{{vari.getFila()}}</td>
+                  <td>{{vari.getColumna()}}</td>
+                  <td>El Caracter   {{vari.getValor()}}   no pertenece al lenguaje</td>
+                </tr>
+                <tr *ngFor="let varia of errores_sintacticos">
+                  <th scope="row">{{varia.getID()}}</th>
+                  <td>{{varia.getTipo()}}</td>
+                  <td>{{varia.getFila()}}</td>
+                  <td>{{varia.getColumna()}}</td>
+                  <td>{{varia.getValor()}}</td>
+                </tr>
 
-
-
-
-          <div class="card-body">
-            <h2 class="card-title">Texto de Ayuda</h2>
-            <p class="card-text">Gramatica a aplicar!</p>
-            <a href="#" class="btn btn-primary">Leer mas... &rarr;</a>
+          
+              </tbody>
+            </table>
           </div>
-          <div class="card-footer text-muted">
-            fecha del proyecto 14 de Abril
-            <a href="#">Utilizando Bootstrap</a>
-          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         </div>
 
 
 
 
 
-      </div>
+
+
+    </div>
+
+
+
+
+
+
+
 
 
 
@@ -154,76 +332,6 @@
       <div class="col-md-6">
 
           
-<!-- Side  hecho con angular Material -->
-        <div class="card my-4">
-          <h2 class="card-header">Codigo en Varios Ambientes</h2>
-<mat-tab-group>
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">gesture</mat-icon>
-      Python
-    </ng-template>
-    
-    <ngx-codemirror 
-    [(ngModel)]="python"
-    [options]="{
-      lineNumbers: true,
-      matchBrackets: true,
-      styeleActiveLine:true,
-      theme: 'cobalt',
-      mode: 'python' 
-    }" ></ngx-codemirror>
-
-
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">code</mat-icon>
-      Html
-    </ng-template>
-   
-    <ngx-codemirror 
-    [(ngModel)]="html"
-    [options]="{
-      lineNumbers: true,
-      matchBrackets: true,
-      styeleActiveLine:true,
-      theme: 'dracula',
-      mode: 'go'
-    }"></ngx-codemirror>
-
-
-
-
-
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <mat-icon class="example-tab-icon">receipt</mat-icon>
-      Json
-    </ng-template>
-
-    
-    <ngx-codemirror 
-    [(ngModel)]="Json"
-    [options]="{
-      lineNumbers: true,
-      matchBrackets: true,
-      styeleActiveLine:true,
-      theme: 'eclipse',
-      mode: 'javascript'
-    }"></ngx-codemirror>
-
-
-
-
-
-
-  </mat-tab>
-</mat-tab-group>
-</div>
 
 
       <!-- Side Widget 
@@ -234,6 +342,57 @@
         </div>
       </div>
 -->
+
+
+
+
+
+
+
+
+<div class="card mb-4">
+
+  <div class="card-body">
+    <h2 class="card-title">Tabla de Variables</h2>
+    <p class="card-text">Identificadas!</p>
+  </div>
+  <table class="table">
+    <thead>
+      <tr >
+        <th scope="col">#</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Linea</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let vari of tokens">
+        <th scope="row">{{vari.getID()}}</th>
+        <td>{{vari.getValor()}}</td>
+        <td>{{vari.getTipo()}}</td>
+        <td>{{vari.getFila()}}</td>
+      </tr>
+      <tr *ngFor="let vari of comentarios">
+        <th scope="row">{{vari.getID()}}</th>
+        <td>{{vari.getValor()}}</td>
+        <td>{{vari.getTipo()}}</td>
+        <td>{{vari.getFila()}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
